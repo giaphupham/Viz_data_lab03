@@ -1,8 +1,6 @@
 from page1 import page_1
 import streamlit as st
 
-import streamlit as st
-
 def main():
     st.title("Visualize lab 3")
 
