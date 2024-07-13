@@ -69,3 +69,27 @@ def page_4():
     # Hiển thị biểu đồ
     st.plotly_chart(fig_model_specific_make)
 
+    # Lọc dữ liệu cho hãng xe cụ thể và loại xe cụ thể
+    newcar_option = st.selectbox('Chọn loại xe', ['Xe mới', 'Xe cũ'])
+    is_newcar = True if newcar_option == 'Xe mới' else False
+
+    # Lọc dữ liệu cho hãng xe cụ thể và loại xe cụ thể
+    df_filtered = data[(data['Make'] == selected_make) & (data['New Car'] == is_newcar)]
+
+    # Tính giá bán trung bình và giá bán lại trung bình theo từng mẫu xe
+    average_prices = df_filtered.groupby('Model')[['Sale Price', 'Resell Price']].mean().reset_index()
+
+    # Chuyển đổi dữ liệu sang dạng dài (long format) để sử dụng với plotly express
+    average_prices_long = average_prices.melt(id_vars='Model', value_vars=['Sale Price', 'Resell Price'], 
+                                            var_name='Price Type', value_name='Price')
+
+    # Tạo biểu đồ bar chart tương tác so sánh giá bán và giá bán lại trung bình
+    fig_comparison = px.bar(average_prices_long, x='Model', y='Price', color='Price Type',
+                            title=f'So sánh giá bán và giá bán lại trung bình theo mẫu xe của hãng {selected_make} ({newcar_option})',
+                            labels={'Price': 'Giá tiền', 'Model': 'Mẫu xe', 'Price Type': 'Loại giá'},
+                            barmode='group',
+                            template='plotly')
+
+    # Hiển thị biểu đồ
+    st.plotly_chart(fig_comparison)
+
