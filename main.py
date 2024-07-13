@@ -7,7 +7,7 @@ from page4 import page_4
 def main():
     st.title("Visualize lab 3")
 
-    menu = ["Giá xe của từng hãng qua các năm", "Giá bán lại của hãng" ,"Chủ đề về vận tốc của các xe", "Chủ đề về thương hiệu xe"]
+    menu = ["Giá xe của từng hãng qua các năm", "Giá bán lại theo hãng xe" ,"Chủ đề về vận tốc của các xe", "Chủ đề về thương hiệu xe"]
     choice = st.sidebar.selectbox("Chọn trang", menu)
 
     if choice == "Giá xe của từng hãng qua các năm":
@@ -16,7 +16,7 @@ def main():
         page_2()
     elif choice == "Chủ đề về thương hiệu xe":
         page_3()
-    elif choice == "Giá bán lại của hãng":
+    elif choice == "Giá bán lại theo hãng xe":
         page_4()
 
 

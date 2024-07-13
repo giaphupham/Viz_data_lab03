@@ -69,6 +69,8 @@ def page_4():
     # Hiển thị biểu đồ
     st.plotly_chart(fig_model_specific_make)
 
+    st.header(f'So sánh giá bán và giá bán lại trung bình theo mẫu xe của hãng {selected_make}')
+
     # Lọc dữ liệu cho hãng xe cụ thể và loại xe cụ thể
     newcar_option = st.selectbox('Chọn loại xe', ['Xe mới', 'Xe cũ'])
     is_newcar = True if newcar_option == 'Xe mới' else False
@@ -88,6 +90,20 @@ def page_4():
                             title=f'So sánh giá bán và giá bán lại trung bình theo mẫu xe của hãng {selected_make} ({newcar_option})',
                             labels={'Price': 'Giá tiền', 'Model': 'Mẫu xe', 'Price Type': 'Loại giá'},
                             barmode='group',
+                            template='plotly')
+
+    # Hiển thị biểu đồ
+    st.plotly_chart(fig_comparison)
+
+    st.header(f'So sánh tỉ lệ khấu hao (5 năm) trung bình theo mẫu xe của {selected_make}')
+
+    # Tính toán 5-year Depreciation trung bình theo từng mẫu xe
+    average_depreciation = df_filtered.groupby('Model')['5-yr Depreciation'].mean().reset_index()
+
+    # Tạo biểu đồ bar chart tương tác so sánh 5-year Depreciation trung bình
+    fig_comparison = px.bar(average_depreciation, x='Model', y='5-yr Depreciation',
+                            title=f'So sánh tỉ lệ khấu hao (5 năm) trung bình theo mẫu xe của hãng {selected_make} ({newcar_option})',
+                            labels={'5-yr Depreciation': 'Tỉ lệ khấu hao (5 năm)', 'Model': 'Mẫu xe'},
                             template='plotly')
 
     # Hiển thị biểu đồ
